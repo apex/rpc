@@ -41,19 +41,23 @@ Currently the schemas are loosely a superset of [JSON Schema](https://json-schem
 
 <details>
   <summary>Should I use this in production?</summary>
-  <p>Only if you're confident that it supports everything you need, or you're comfortable with forking. I created this project for my work at Apex Software, it may not suit your needs.</p>
+  Only if you're confident that it supports everything you need, or you're comfortable with forking. I created this project for my work at Apex Software, it may not suit your needs.
 </details>
 
 <details>
   <summary>Why JSON schemas?</summary>
-  <p>I think concise schemas using a DSL are great, until they're a limiting factor. Personally I have no problem with JSON, and it's easy to expand upon when you introduce a new feature, such as inline examples for documentation.</p>
+  I think concise schemas using a DSL are great, until they're a limiting factor. Personally I have no problem with JSON, and it's easy to expand upon when you introduce a new feature, such as inline examples for documentation.
 </details>
 
 <details>
   <summary>Why doesn't it follow the JSON-RPC spec?</summary>
-  <p>I would argue this spec is outdated, there is little reason to support batching at the request level, as HTTP/2 handles this for you.</p>
+  I would argue this spec is outdated, there is little reason to support batching at the request level, as HTTP/2 handles this for you.
 </details>
 
+<details>
+  <summary>What does the client output look like?</summary>
+  See the <a href="https://github.com/apex/logs/blob/master/go/logs/client.go">Apex Logs</a> Go client for an example, client code is designed to be concise and idiomatic.
+</details>
 ---
 
 [![GoDoc](https://godoc.org/github.com/apex/rpc?status.svg)](https://godoc.org/github.com/apex/rpc)
