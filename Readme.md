@@ -13,7 +13,7 @@ $ curl -d '{ "project_id": "ping_production" }' https://api.example.com/get_aler
 }
 ```
 
-All inputs are objects, all outputs are objects, this improves future-proofing as additional fields can be added without breaking existing clients.
+All inputs are objects, all outputs are objects, this improves future-proofing as additional fields can be added without breaking existing clients. This is similar to the approach AWS takes with their APIs.
 
 ## Commands
 
@@ -32,9 +32,22 @@ All of these commands accept a `-schema` flag defaulting to `schema.json`, see t
 
 Currently the schemas are loosely a superset of [JSON Schema](https://json-schema.org/), however, this is a work in progress. See the [example schema](./examples/todo/schema.json).
 
-## Notes
+## FAQ
 
-This is early software, and only really supports the features necessary for Apex Software APIs, so please be aware of that if you choose to adopt it in your own projects.
+<details>
+  <summary>Why did you create this project?</summary>
+  There are many great options when it comes to building APIs, but for me the most important aspect is simplicity, for myself and for the end user. Simple JSON in, and JSON out is appropriate for 99% of my API work, there's no need for the additional performance provided by encoding schemes, and rarely an need for more complex features such as bi-directional streaming provided by gRPC.
+</details>
+
+<details>
+  <summary>Should I use this in production?</summary>
+  <p>Only if you're confident that it supports everything you need, or you're comfortable with forking. I created this project for my work at Apex Software, it may not suit your needs.</p>
+</details>
+
+<details>
+  <summary>Why JSON schemas?</summary>
+  <p>I think concise schemas using a DSL are great, until they're a limiting factor. Personally I have no problem with JSON, and it's easy to expand upon when you introduce a new feature, such as inline examples for documentation.</p>
+</details>
 
 ---
 
@@ -44,11 +57,7 @@ This is early software, and only really supports the features necessary for Apex
 
 ## Sponsors
 
-This project is sponsored by [CTO.ai](https://cto.ai/), making it easy for development teams to create and share workflow automations without leaving the command line.
-
-[![](https://apex-software.imgix.net/github/sponsors/cto.png)](https://cto.ai/)
-
-And my [GitHub sponsors](https://github.com/sponsors/tj):
+Sponsored by my [GitHub sponsors](https://github.com/sponsors/tj):
 
 [<img src="https://sponsors-api-u2fftug6kq-uc.a.run.app/sponsor/avatar/0" width="35">](https://sponsors-api-u2fftug6kq-uc.a.run.app/sponsor/profile/0)
 [<img src="https://sponsors-api-u2fftug6kq-uc.a.run.app/sponsor/avatar/1" width="35">](https://sponsors-api-u2fftug6kq-uc.a.run.app/sponsor/profile/1)
@@ -113,9 +122,3 @@ And my [GitHub sponsors](https://github.com/sponsors/tj):
 [<img src="https://sponsors-api-u2fftug6kq-uc.a.run.app/sponsor/avatar/60" width="35">](https://sponsors-api-u2fftug6kq-uc.a.run.app/sponsor/profile/60)
 [<img src="https://sponsors-api-u2fftug6kq-uc.a.run.app/sponsor/avatar/61" width="35">](https://sponsors-api-u2fftug6kq-uc.a.run.app/sponsor/profile/61)
 [<img src="https://sponsors-api-u2fftug6kq-uc.a.run.app/sponsor/avatar/62" width="35">](https://sponsors-api-u2fftug6kq-uc.a.run.app/sponsor/profile/62)
-[<img src="https://sponsors-api-u2fftug6kq-uc.a.run.app/sponsor/avatar/63" width="35">](https://sponsors-api-u2fftug6kq-uc.a.run.app/sponsor/profile/63)
-[<img src="https://sponsors-api-u2fftug6kq-uc.a.run.app/sponsor/avatar/64" width="35">](https://sponsors-api-u2fftug6kq-uc.a.run.app/sponsor/profile/64)
-[<img src="https://sponsors-api-u2fftug6kq-uc.a.run.app/sponsor/avatar/65" width="35">](https://sponsors-api-u2fftug6kq-uc.a.run.app/sponsor/profile/65)
-[<img src="https://sponsors-api-u2fftug6kq-uc.a.run.app/sponsor/avatar/66" width="35">](https://sponsors-api-u2fftug6kq-uc.a.run.app/sponsor/profile/66)
-[<img src="https://sponsors-api-u2fftug6kq-uc.a.run.app/sponsor/avatar/67" width="35">](https://sponsors-api-u2fftug6kq-uc.a.run.app/sponsor/profile/67)
-[<img src="https://sponsors-api-u2fftug6kq-uc.a.run.app/sponsor/avatar/68" width="35">](https://sponsors-api-u2fftug6kq-uc.a.run.app/sponsor/profile/68)
