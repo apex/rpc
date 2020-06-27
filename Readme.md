@@ -49,6 +49,11 @@ Currently the schemas are loosely a superset of [JSON Schema](https://json-schem
   <p>I think concise schemas using a DSL are great, until they're a limiting factor. Personally I have no problem with JSON, and it's easy to expand upon when you introduce a new feature, such as inline examples for documentation.</p>
 </details>
 
+<details>
+  <summary>Why doesn't it follow the JSON-RPC spec?</summary>
+  <p>I would argue this spec is outdated, there is little reason to support batching at the request level, as HTTP/2 handles this for you.</p>
+</details>
+
 ---
 
 [![GoDoc](https://godoc.org/github.com/apex/rpc?status.svg)](https://godoc.org/github.com/apex/rpc)
