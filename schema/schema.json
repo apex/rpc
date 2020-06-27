@@ -1,0 +1,272 @@
+{
+  "$id": "https://example.com/rpc.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "rpc",
+  "type": "object",
+  "required": [
+    "name",
+    "version",
+    "methods"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the API."
+    },
+    "version": {
+      "type": "string",
+      "description": "The version of the API."
+    },
+    "description": {
+      "description": "The description of the API",
+      "type": "string"
+    },
+    "methods": {
+      "description": "The methods provided by the API.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/methodObject"
+      }
+    },
+    "types": {
+      "description": "Custom type definitions.",
+      "patternProperties": {
+        "[0-z]+": {
+          "$ref": "#/definitions/typeObject"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "primitives": {
+      "enum": [
+        "array",
+        "boolean",
+        "float",
+        "integer",
+        "object",
+        "string",
+        "timestamp"
+      ]
+    },
+    "typeObject": {
+      "type": "object",
+      "required": [
+        "properties"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "name": {
+          "description": "The type name.",
+          "type": "string"
+        },
+        "description": {
+          "description": "The type description.",
+          "type": "string"
+        },
+        "properties": {
+          "description": "The property definitions.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/fieldObject"
+          }
+        },
+        "examples": {
+          "description": "The example definitions.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/exampleObject"
+          }
+        }
+      }
+    },
+    "methodObject": {
+      "type": "object",
+      "required": [
+        "name",
+        "description"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "name": {
+          "description": "The method name.",
+          "type": "string"
+        },
+        "description": {
+          "description": "The method description.",
+          "type": "string"
+        },
+        "inputs": {
+          "description": "The method input parameters.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/fieldObject"
+          }
+        },
+        "outputs": {
+          "description": "The method output parameters.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/fieldObject"
+          }
+        },
+        "since": {
+          "description": "The API version that the method was introduced in.",
+          "type": "string"
+        },
+        "deprecated": {
+          "description": "Whether or not the method is deprecated.",
+          "type": "boolean"
+        }
+      }
+    },
+    "fieldObject": {
+      "type": "object",
+      "required": [
+        "name",
+        "type"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "name": {
+          "description": "The field name.",
+          "type": "string"
+        },
+        "description": {
+          "description": "The field description.",
+          "type": "string"
+        },
+        "type": {
+          "description": "The field type.",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/primitives"
+            },
+            {
+              "$ref": "#/definitions/referenceObject"
+            }
+          ]
+        },
+        "enum": {
+          "description": "An enumeration of possible values.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "required": {
+          "description": "Whether or not the field is required.",
+          "type": "boolean"
+        },
+        "items": {
+          "description": "Array item definition.",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/itemObject"
+            },
+            {
+              "$ref": "#/definitions/referenceObject"
+            }
+          ]
+        },
+        "min": {
+          "description": "The minimum value.",
+          "type": "integer"
+        },
+        "max": {
+          "description": "The maximum value.",
+          "type": "integer"
+        },
+        "length": {
+          "description": "The maximum length of a string.",
+          "type": "integer"
+        },
+        "default": {
+          "description": "The default value."
+        }
+      }
+    },
+    "referenceObject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "$ref"
+      ],
+      "properties": {
+        "$ref": {
+          "type": "string",
+          "format": "uri-reference"
+        }
+      }
+    },
+    "itemObject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/primitives"
+        }
+      }
+    },
+    "groupObject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "summary",
+        "description"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "exampleObject": {
+      "type": "object",
+      "required": [
+        "description",
+        "value"
+      ],
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "value": {
+
+        }
+      }
+    },
+    "methodExampleObject": {
+      "type": "object",
+      "required": [
+        "input",
+        "output"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "input": {
+
+        },
+        "output": {
+
+        }
+      }
+    }
+  }
+}

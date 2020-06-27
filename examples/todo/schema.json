@@ -1,0 +1,68 @@
+{
+  "name": "todo",
+  "version": "1.0.0",
+  "description": "A to-do list example.",
+  "methods": [
+    {
+      "name": "add_item",
+      "description": "Add an item to the list.",
+      "inputs": [
+        {
+          "name": "item",
+          "description": "the item to add.",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "get_items",
+      "description": "Return all items in the list.",
+      "outputs": [
+        {
+          "name": "items", 
+          "description": "the list of to-do items.",
+          "type": "array",
+          "items": {
+            "$ref": "#/types/item"
+          }
+        }
+      ]
+    },
+    {
+      "name": "remove_item",
+      "description": "removes an item from the to-do list.",
+      "inputs": [
+        {
+          "name": "id",
+          "description": "the id of the item to remove.",
+          "type": "integer"
+        }
+      ]
+    }
+  ],
+  "types": {
+    "item": {
+      "description": "A to-do item.",
+      "properties": [
+        {
+          "name": "id",
+          "description": "the id of the item.",
+          "type": "integer",
+          "readonly": true
+        },
+        {
+          "name": "text",
+          "description": "the to-do item text.",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "created_at",
+          "description": "the time the to-do item was created.",
+          "type": "timestamp"
+        }
+      ]
+    }
+  }
+}
