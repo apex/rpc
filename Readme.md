@@ -58,13 +58,12 @@ Currently the schemas are loosely a superset of [JSON Schema](https://json-schem
   <summary>What does the client output look like?</summary>
   See the <a href="https://github.com/apex/logs/blob/master/go/logs/client.go">Apex Logs</a> Go client for an example, client code is designed to be concise and idiomatic.
 </details>
+
 ---
 
 [![GoDoc](https://godoc.org/github.com/apex/rpc?status.svg)](https://godoc.org/github.com/apex/rpc)
 ![](https://img.shields.io/badge/license-MIT-blue.svg)
 ![](https://img.shields.io/badge/status-stable-green.svg)
-
-## Sponsors
 
 Sponsored by my [GitHub sponsors](https://github.com/sponsors/tj):
 
