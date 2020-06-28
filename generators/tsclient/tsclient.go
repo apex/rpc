@@ -8,8 +8,9 @@ import (
 	"github.com/apex/rpc/schema"
 )
 
-var call = `import fetch from 'node-fetch'
+var require = "import fetch from '%s'"
 
+var call = `
 /**
 * Call method with params via a POST request.
 */
@@ -42,9 +43,12 @@ async function call(url: string, authToken: string, method: string, params?: any
 }`
 
 // Generate writes the TS client implementations to w.
-func Generate(w io.Writer, s *schema.Schema) error {
+func Generate(w io.Writer, s *schema.Schema, fetchLibrary string) error {
 	out := fmt.Fprintf
 
+	if fetchLibrary != "none" {
+		out(w, "\n%s\n", fmt.Sprintf(require, fetchLibrary))
+	}
 	out(w, "\n%s\n", call)
 	out(w, "\n\n")
 	out(w, "/**\n")
