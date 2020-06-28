@@ -19,7 +19,6 @@ All inputs are objects, all outputs are objects, this improves future-proofing a
 
 There are several commands provided for generating clients, servers, and documentation:
 
-- `rpc-apex-docs` generates the markdown used on [apex.sh](https://apex.sh/docs/logs/) 
 - `rpc-go-client` generates Go clients
 - `rpc-go-server` generates Go servers
 - `rpc-ts-client` generates TypeScript clients
