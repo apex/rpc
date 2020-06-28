@@ -4,7 +4,7 @@ Simple RPC style APIs with generated clients & servers.
 
 ## About
 
-All RPC methods are invoked with a POST, and the method name itself is in the URL. Input is passed as a JSON object in the body, following a JSON response for the output as shown here:
+All RPC methods are invoked with the POST method, and the RPC method name is placed in the URL path. Input is passed as a JSON object in the body, following a JSON response for the output as shown here:
 
 ```sh
 $ curl -d '{ "project_id": "ping_production" }' https://api.example.com/get_alerts
@@ -36,7 +36,7 @@ Currently the schemas are loosely a superset of [JSON Schema](https://json-schem
 
 <details>
   <summary>Why did you create this project?</summary>
-  There are many great options when it comes to building APIs, but for me the most important aspect is simplicity, for myself and for the end user. Simple JSON in, and JSON out is appropriate for 99% of my API work, there's no need for the additional performance provided by encoding schemes, and rarely an need for more complex features such as bi-directional streaming provided by gRPC.
+  There are many great options when it comes to building APIs, but to me the most important aspect is simplicity, for myself and for the end user. Simple JSON in, and JSON out is appropriate for 99% of my API work, there's no need for the additional performance provided by alternative encoding schemes, and rarely a need for more complex features such as bi-directional streaming provided by gRPC.
 </details>
 
 <details>
