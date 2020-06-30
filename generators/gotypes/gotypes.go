@@ -224,7 +224,8 @@ func writeFieldValidation(w io.Writer, f schema.Field, recv byte) error {
 
 	// enums
 	if f.Type.Type == schema.String && f.Enum != nil {
-		out(w, "  if !oneOf(%c.%s, %s) {\n", recv, name, formatSlice(f.Enum))
+		field := fmt.Sprintf("%c.%s", recv, name)
+		out(w, "  if %s != \"\" && !oneOf(%s, %s) {\n", field, field, formatSlice(f.Enum))
 		writeError(fmt.Sprintf("must be one of: %s", formatEnum(f.Enum)))
 		out(w, "  }\n\n")
 	}
