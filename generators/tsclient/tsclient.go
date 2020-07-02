@@ -8,7 +8,12 @@ import (
 	"github.com/apex/rpc/schema"
 )
 
-var require = "import fetch from '%s'"
+var require = `
+let fetch = typeof window !== 'undefined' ? window.fetch : null
+if(!fetch) {
+  fetch = require('%s')
+}
+`
 
 var call = `
 /**
@@ -46,9 +51,7 @@ async function call(url: string, authToken: string, method: string, params?: any
 func Generate(w io.Writer, s *schema.Schema, fetchLibrary string) error {
 	out := fmt.Fprintf
 
-	if fetchLibrary != "none" {
-		out(w, "\n%s\n", fmt.Sprintf(require, fetchLibrary))
-	}
+	out(w, require, fetchLibrary)
 	out(w, "\n%s\n", call)
 	out(w, "\n\n")
 	out(w, "/**\n")
