@@ -26,9 +26,6 @@ func TestGenerateNoTypes(t *testing.T) {
 	if err != nil {
 		log.Fatalf("error generating: %v", err)
 	}
-	if err != nil {
-		log.Fatalf("error: %v", err)
-	}
 
 	assert.Equal(t, string(exp), act.String())
 }
@@ -48,9 +45,6 @@ func TestGenerateTypes(t *testing.T) {
 	err = generate(&act, schema, "server", "github.com/apex/rpc/cmd/rpc-go-server/api", true)
 	if err != nil {
 		log.Fatalf("error generating: %v", err)
-	}
-	if err != nil {
-		log.Fatalf("error: %v", err)
 	}
 
 	assert.Equal(t, string(exp), act.String())
