@@ -1,6 +1,7 @@
 package format
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/iancoleman/strcase"
@@ -39,6 +40,14 @@ func GoName(s string) string {
 		}
 	}
 	return s
+}
+
+// GoInputType returns the name of a method input type
+func GoInputType(types, method string) string {
+	if len(types) == 0 {
+		return fmt.Sprintf("%sInput", GoName(method))
+	}
+	return fmt.Sprintf("%s.%sInput", types, GoName(method))
 }
 
 // JsName returns a name formatted for JS.

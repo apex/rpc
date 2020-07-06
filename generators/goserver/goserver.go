@@ -9,10 +9,7 @@ import (
 )
 
 // Generate writes the Go server implementations to w.
-func Generate(w io.Writer, s *schema.Schema, tracing bool) error {
-	// TODO: pass in?
-	types := "api"
-
+func Generate(w io.Writer, s *schema.Schema, tracing bool, types string) error {
 	// router
 	err := writeRouter(w, s, types)
 	if err != nil {
@@ -51,7 +48,7 @@ func writeRouter(w io.Writer, s *schema.Schema, types string) error {
 		out(w, "      case \"/%s\":\n", m.Name)
 		// parse input
 		if len(m.Inputs) > 0 {
-			out(w, "        var in %s.%sInput\n", types, format.GoName(m.Name))
+			out(w, "        var in %s\n", format.GoInputType(types, m.Name))
 			out(w, "        err = rpc.ReadRequest(r, &in)\n")
 			out(w, "        if err != nil {\n")
 			out(w, "          break\n")
@@ -87,7 +84,7 @@ func writeMethods(w io.Writer, s *schema.Schema, tracing bool, types string) err
 
 		// method signature
 		if len(m.Inputs) > 0 {
-			out(w, "func (s *Server) %s(ctx context.Context, in %s.%sInput) (interface{}, error) {\n", format.JsName(m.Name), types, format.GoName(m.Name))
+			out(w, "func (s *Server) %s(ctx context.Context, in %s) (interface{}, error) {\n", format.JsName(m.Name), format.GoInputType(types, m.Name))
 		} else {
 			out(w, "func (s *Server) %s(ctx context.Context) (interface{}, error) {\n", format.JsName(m.Name))
 		}

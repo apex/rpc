@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"path"
 
 	"github.com/apex/rpc/generators/goserver"
 	"github.com/apex/rpc/schema"
@@ -43,11 +44,16 @@ func generate(w io.Writer, s *schema.Schema, pkg, types string, logging bool) er
 	out(w, "\n")
 	out(w, "  \"github.com/apex/rpc\"\n")
 	out(w, "  \"github.com/apex/log\"\n")
-	out(w, "\n")
-	out(w, "  \"%s\"\n", types)
+	if len(types) > 0 {
+		out(w, "\n")
+		out(w, "  \"%s\"\n", types)
+	}
 	out(w, ")\n\n")
 
-	err := goserver.Generate(w, s, logging)
+	if len(types) > 0 {
+		types = path.Base(types)
+	}
+	err := goserver.Generate(w, s, logging, types)
 	if err != nil {
 		return fmt.Errorf("generating client: %w", err)
 	}
