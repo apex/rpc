@@ -54,6 +54,8 @@ func Generate(w io.Writer, s *schema.Schema, fetchLibrary string) error {
 	out(w, require, fetchLibrary)
 	out(w, "\n%s\n", call)
 	out(w, "\n\n")
+	out(w, `const reDate = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*))(?:Z|(\+|-)([\d|:]*))?$/`)
+	out(w, "\n\n")
 	out(w, "/**\n")
 	out(w, " * Client is the API client.\n")
 	out(w, " */\n")
@@ -70,6 +72,16 @@ func Generate(w io.Writer, s *schema.Schema, fetchLibrary string) error {
 	out(w, "  constructor(params: { url: string, authToken?: string }) {\n")
 	out(w, "    this.url = params.url\n")
 	out(w, "    this.authToken = params.authToken\n")
+	out(w, "  }\n")
+	out(w, "\n")
+	out(w, "  /**\n")
+	out(w, "   * Decoder is used as the reviver parameter when decoding responses.\n")
+	out(w, "   */\n")
+	out(w, "\n")
+	out(w, "  private decoder(key: any, value: any) {\n")
+	out(w, "    return typeof value == 'string' && reDate.test(value)\n")
+	out(w, "      ? new Date(value)\n")
+	out(w, "      : value\n")
 	out(w, "  }\n")
 	out(w, "\n")
 
@@ -103,7 +115,7 @@ func Generate(w io.Writer, s *schema.Schema, fetchLibrary string) error {
 			} else {
 				out(w, "await call(this.url, this.authToken, '%s')\n", m.Name)
 			}
-			out(w, "    let out: %sOutput = JSON.parse(res)\n", format.GoName(m.Name))
+			out(w, "    let out: %sOutput = JSON.parse(res, this.decoder)\n", format.GoName(m.Name))
 			out(w, "    return out\n")
 		} else {
 			// call
