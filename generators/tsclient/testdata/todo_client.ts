@@ -1,5 +1,9 @@
 
-import fetch from 'node-fetch'
+let fetch = typeof window !== 'undefined' ? window.fetch : null
+if(!fetch) {
+  fetch = require('node-fetch')
+}
+
 
 /**
 * Call method with params via a POST request.

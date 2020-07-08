@@ -18,7 +18,7 @@ func TestGenerateNoTypes(t *testing.T) {
 	assert.NoError(t, err, "loading schema")
 
 	var act bytes.Buffer
-	err = tsclient.Generate(&act, schema)
+	err = tsclient.Generate(&act, schema, "node-fetch")
 	assert.NoError(t, err, "generating")
 
 	assert.Equal(t, string(exp), act.String())
