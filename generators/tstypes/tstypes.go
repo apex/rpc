@@ -41,7 +41,7 @@ func Generate(w io.Writer, s *schema.Schema) error {
 		// outputs
 		if len(m.Outputs) > 0 {
 			out(w, "// %sOutput params.\n", name)
-			out(w, "class %sOutput {\n", name)
+			out(w, "interface %sOutput {\n", name)
 			writeFields(w, s, m.Outputs)
 			out(w, "}\n")
 		}
