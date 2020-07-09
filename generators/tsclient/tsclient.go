@@ -54,7 +54,7 @@ func Generate(w io.Writer, s *schema.Schema, fetchLibrary string) error {
 	out(w, require, fetchLibrary)
 	out(w, "\n%s\n", call)
 	out(w, "\n\n")
-	out(w, `const reDate = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]/`)
+	out(w, `const reDate = /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]/`)
 	out(w, "\n\n")
 	out(w, "/**\n")
 	out(w, " * Client is the API client.\n")

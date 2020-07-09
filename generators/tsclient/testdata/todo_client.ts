@@ -37,7 +37,7 @@ async function call(url: string, authToken: string, method: string, params?: any
 }
 
 
-const reDate = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]/
+const reDate = /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]/
 
 /**
  * Client is the API client.
