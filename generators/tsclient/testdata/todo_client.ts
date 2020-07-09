@@ -37,7 +37,7 @@ async function call(url: string, authToken: string, method: string, params?: any
 }
 
 
-const reISO8601 = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))/
+const reDate = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]/
 
 /**
  * Client is the API client.
@@ -62,9 +62,11 @@ export class Client {
    */
 
   private decoder(key: any, value: any) {
-    return typeof value == 'string' && reISO8601.test(value)
-      ? new Date(value)
-      : value
+    if (typeof value == 'string' && reDate.test(value)) {
+      const d = new Date(value)
+      return isNaN(d) ? value : d
+    }
+    return value
   }
 
   /**
