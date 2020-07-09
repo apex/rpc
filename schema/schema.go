@@ -149,9 +149,17 @@ type Group struct {
 // TypesSlice returns a sorted slice of types.
 func (s Schema) TypesSlice() (v []Type) {
 	for _, t := range s.Types {
+		// sort fields
+		sort.Slice(t.Properties, func(i, j int) bool {
+			a := t.Properties[i]
+			b := t.Properties[j]
+			return a.Name < b.Name
+		})
+
 		v = append(v, t)
 	}
 
+	// sort types
 	sort.Slice(v, func(i, j int) bool {
 		return v[i].Name < v[j].Name
 	})
