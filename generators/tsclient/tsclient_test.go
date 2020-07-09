@@ -10,7 +10,7 @@ import (
 	"github.com/tj/assert"
 )
 
-func TestGenerateNoTypes(t *testing.T) {
+func TestGenerate(t *testing.T) {
 	exp, err := ioutil.ReadFile("testdata/todo_client.ts")
 	assert.NoError(t, err, "reading fixture")
 
