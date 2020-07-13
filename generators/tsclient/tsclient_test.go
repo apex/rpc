@@ -21,5 +21,7 @@ func TestGenerate(t *testing.T) {
 	err = tsclient.Generate(&act, schema, "node-fetch")
 	assert.NoError(t, err, "generating")
 
+	// ioutil.WriteFile("testdata/todo_client.ts", act.Bytes(), 0755)
+
 	assert.Equal(t, string(exp), act.String())
 }

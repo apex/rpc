@@ -1,39 +1,58 @@
 
-let fetch = typeof window !== 'undefined' ? window.fetch : null
-if(!fetch) {
-  fetch = require('node-fetch')
-}
-
+// fetch for Node
+const fetch = (typeof window == 'undefined' || window.fetch == null)
+// @ts-ignore
+  ? require('node-fetch')
+  : window.fetch
 
 /**
-* Call method with params via a POST request.
-*/
+ * ClientError is an API client error providing the HTTP status code and error type.
+ */
 
-async function call(url: string, authToken: string, method: string, params?: any): Promise<string> {
- const res = await fetch(url + '/' + method, {
-	 method: 'POST',
-	 body: JSON.stringify(params),
-	 headers: {
-		 'Content-Type': 'application/json',
-		 'Authorization': `Bearer ${authToken}`
-	 }
- })
+class ClientError extends Error {
+  status: number;
+  type?: string;
 
- // we have an error, try to parse a well-formed json
- // error response, otherwise default to status code
- if (res.status >= 300) {
-	 let err
-	 try {
-		 const { type, message } = await res.json()
-		 err = new Error(message)
-		 err.type = type
-	 } catch {
-		 err = new Error(`${res.status} ${res.statusText}`)
-	 }
-	 throw err
- }
+  constructor(status: number, message?: string, type?: string) {
+    super(message)
+    this.status = status
+    this.type = type
+  }
+}
 
- return res.text()
+/**
+ * Call method with params via a POST request.
+ */
+
+async function call(url: string, method: string, authToken?: string, params?: any): Promise<string> {
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json'
+  }
+  
+  if (authToken != null) {
+    headers['Authorization'] = `Bearer ${authToken}`
+  }
+  
+  const res = await fetch(url + '/' + method, {
+    method: 'POST',
+    body: JSON.stringify(params),
+    headers
+  })
+
+  // we have an error, try to parse a well-formed json
+  // error response, otherwise default to status code
+  if (res.status >= 300) {
+    let err
+    try {
+      const { type, message } = await res.json()
+      err = new ClientError(res.status, message, type)
+    } catch {
+      err = new ClientError(res.status, res.statusText)
+    }
+    throw err
+  }
+
+  return res.text()
 }
 
 
@@ -46,7 +65,7 @@ const reISO8601 = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\
 export class Client {
 
   private url: string
-  private authToken: string
+  private authToken?: string
 
   /**
    * Initialize.
@@ -72,7 +91,7 @@ export class Client {
    */
 
   async addItem(params: AddItemInput) {
-    await call(this.url, this.authToken, 'add_item', params)
+    await call(this.url, 'add_item', this.authToken, params)
   }
 
   /**
@@ -80,7 +99,7 @@ export class Client {
    */
 
   async getItems(): Promise<GetItemsOutput> {
-    let res = await call(this.url, this.authToken, 'get_items')
+    let res = await call(this.url, 'get_items', this.authToken)
     let out: GetItemsOutput = JSON.parse(res, this.decoder)
     return out
   }
@@ -90,7 +109,7 @@ export class Client {
    */
 
   async removeItem(params: RemoveItemInput) {
-    await call(this.url, this.authToken, 'remove_item', params)
+    await call(this.url, 'remove_item', this.authToken, params)
   }
 
 }
