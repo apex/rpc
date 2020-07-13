@@ -64,12 +64,11 @@ func writeFields(w io.Writer, s *schema.Schema, fields []schema.Field) {
 
 // writeField to writer.
 func writeField(w io.Writer, s *schema.Schema, f schema.Field) {
-	name := format.JsName(f.Name)
-	fmt.Fprintf(w, "  // %s is %s%s\n", name, f.Description, schemautil.FormatExtra(f))
+	fmt.Fprintf(w, "  // %s is %s%s\n", f.Name, f.Description, schemautil.FormatExtra(f))
 	if f.Required {
-		fmt.Fprintf(w, "  %s: %s\n", name, jsType(s, f))
+		fmt.Fprintf(w, "  %s: %s\n", f.Name, jsType(s, f))
 	} else {
-		fmt.Fprintf(w, "  %s?: %s\n", name, jsType(s, f))
+		fmt.Fprintf(w, "  %s?: %s\n", f.Name, jsType(s, f))
 	}
 }
 
