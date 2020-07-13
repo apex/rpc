@@ -55,7 +55,7 @@ Currently the schemas are loosely a superset of [JSON Schema](https://json-schem
 
 <details>
   <summary>What does the client output look like?</summary>
-  See the <a href="https://github.com/apex/logs/blob/master/go/logs/client.go">Apex Logs</a> Go client for an example, client code is designed to be concise and idiomatic.
+  See the <a href="https://github.com/apex/logs/blob/master/client.go">Apex Logs</a> Go client for an example, client code is designed to be concise and idiomatic.
 </details>
 
 ---
