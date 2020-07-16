@@ -34,17 +34,17 @@ module Todo
       @auth_token = auth_token
     end
 
-    # add_item adds an item to the list.
+    # Adds an item to the list.
     def add_item(params)
       call "add_item", params
     end
 
-    # get_items returns all items in the list.
+    # Returns all items in the list.
     def get_items
       call "get_items"
     end
 
-    # remove_item removes an item from the to-do list.
+    # Removes an item from the to-do list.
     def remove_item(params)
       call "remove_item", params
     end

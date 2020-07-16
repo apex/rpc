@@ -3,6 +3,7 @@ package rubyclient
 import (
 	"fmt"
 	"io"
+	"strings"
 
 	"github.com/apex/rpc/schema"
 )
@@ -81,7 +82,7 @@ func Generate(w io.Writer, s *schema.Schema, moduleName, className string) error
 	for _, m := range s.Methods {
 		// comment
 		out(w, "\n")
-		out(w, "    # %s %s\n", m.Name, m.Description)
+		out(w, "    # %s\n", capitalize(m.Description))
 
 		// method
 		out(w, "    def %s", m.Name)
@@ -108,4 +109,9 @@ func Generate(w io.Writer, s *schema.Schema, moduleName, className string) error
 	out(w, "end\n")
 
 	return nil
+}
+
+// capitalize returns a capitalized string.
+func capitalize(s string) string {
+	return strings.ToUpper(string(s[0])) + string(s[1:])
 }
