@@ -74,7 +74,9 @@ func Generate(w io.Writer, s *schema.Schema, validate bool) error {
 		out(w, "\n")
 	}
 
-	out(w, "\n%s\n", utils)
+	if validate {
+		out(w, "\n%s\n", utils)
+	}
 
 	return nil
 }

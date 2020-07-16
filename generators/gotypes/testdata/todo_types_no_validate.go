@@ -28,13 +28,3 @@ type RemoveItemInput struct {
   ID int `json:"id"`
 }
 
-
-// oneOf returns true if s is in the values.
-func oneOf(s string, values []string) bool {
-  for _, v := range values {
-		if s == v {
-			return true
-		}
-	}
-	return false
-}
