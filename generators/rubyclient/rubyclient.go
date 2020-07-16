@@ -83,6 +83,13 @@ func Generate(w io.Writer, s *schema.Schema, moduleName, className string) error
 		// comment
 		out(w, "\n")
 		out(w, "    # %s\n", capitalize(m.Description))
+		if len(m.Inputs) > 0 {
+			out(w, "    #\n")
+			out(w, "    # @param [Hash] params the input for this method.\n")
+			for _, f := range m.Inputs {
+				out(w, "    # @param params [%s] :%s %s\n", rubyType(s, f), f.Name, capitalize(f.Description))
+			}
+		}
 
 		// method
 		out(w, "    def %s", m.Name)
@@ -114,4 +121,26 @@ func Generate(w io.Writer, s *schema.Schema, moduleName, className string) error
 // capitalize returns a capitalized string.
 func capitalize(s string) string {
 	return strings.ToUpper(string(s[0])) + string(s[1:])
+}
+
+// rubyType returns a Ruby equivalent type for field f.
+func rubyType(s *schema.Schema, f schema.Field) string {
+	// TODO: handle reference types, not sure if makes sense
+	// to generate classes for Ruby inputs or not
+	switch f.Type.Type {
+	case schema.String:
+		return "String"
+	case schema.Int, schema.Float:
+		return "Number"
+	case schema.Bool:
+		return "Boolean"
+	case schema.Timestamp:
+		return "Date"
+	case schema.Object:
+		return "Hash"
+	case schema.Array:
+		return "Array"
+	default:
+		return ""
+	}
 }

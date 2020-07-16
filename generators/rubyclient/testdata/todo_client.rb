@@ -35,6 +35,9 @@ module Todo
     end
 
     # Adds an item to the list.
+    #
+    # @param [Hash] params the input for this method.
+    # @param params [String] :item The item to add.
     def add_item(params)
       call "add_item", params
     end
@@ -45,6 +48,9 @@ module Todo
     end
 
     # Removes an item from the to-do list.
+    #
+    # @param [Hash] params the input for this method.
+    # @param params [Number] :id The id of the item to remove.
     def remove_item(params)
       call "remove_item", params
     end
