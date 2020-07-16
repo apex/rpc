@@ -5,7 +5,7 @@
   "methods": [
     {
       "name": "add_item",
-      "description": "Add an item to the list.",
+      "description": "adds an item to the list.",
       "inputs": [
         {
           "name": "item",
@@ -17,7 +17,7 @@
     },
     {
       "name": "get_items",
-      "description": "Return all items in the list.",
+      "description": "returns all items in the list.",
       "outputs": [
         {
           "name": "items", 

@@ -18,7 +18,7 @@ class Client {
   }
 
   /**
-   * addItem Add an item to the list.
+   * addItem adds an item to the list.
    *
    * @param array $params The input parameters.
    */
@@ -27,7 +27,7 @@ class Client {
   }
 
   /**
-   * getItems Return all items in the list.
+   * getItems returns all items in the list.
    *
    * @return array
    */

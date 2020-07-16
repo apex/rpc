@@ -45,13 +45,13 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
   }
 }
 
-// addItem Add an item to the list.
+// addItem adds an item to the list.
 func (s *Server) addItem(ctx context.Context, in api.AddItemInput) (interface{}, error) {
   err := s.AddItem(ctx, in)
   return nil, err
 }
 
-// getItems Return all items in the list.
+// getItems returns all items in the list.
 func (s *Server) getItems(ctx context.Context) (interface{}, error) {
   res, err := s.GetItems(ctx)
   return res, err

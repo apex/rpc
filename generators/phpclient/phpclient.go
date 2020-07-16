@@ -63,13 +63,6 @@ func Generate(w io.Writer, s *schema.Schema, className string) error {
 	for _, m := range s.Methods {
 		name := format.JsName(m.Name)
 
-		/**
-		 * Tracks a screen view.
-		 *
-		 * @param  [array] $message
-		 * @return [boolean] whether the screen call succeeded
-		 */
-
 		// comment
 		out(w, "\n")
 		out(w, "  /**\n")

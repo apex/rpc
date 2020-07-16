@@ -10,12 +10,12 @@ type Client struct {
   HTTPClient *http.Client
 }
 
-// AddItem Add an item to the list.
+// AddItem adds an item to the list.
 func (c *Client) AddItem(in AddItemInput) error {
   return call(c.HTTPClient, c.AuthToken, c.URL, "add_item", in, nil)
 }
 
-// GetItems Return all items in the list.
+// GetItems returns all items in the list.
 func (c *Client) GetItems() (*GetItemsOutput, error) {
   var out GetItemsOutput
   return &out, call(c.HTTPClient, c.AuthToken, c.URL, "get_items", nil, &out)

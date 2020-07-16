@@ -87,7 +87,7 @@ export class Client {
   }
 
   /**
-   * addItem: Add an item to the list.
+   * addItem: adds an item to the list.
    */
 
   async addItem(params: AddItemInput) {
@@ -95,7 +95,7 @@ export class Client {
   }
 
   /**
-   * getItems: Return all items in the list.
+   * getItems: returns all items in the list.
    */
 
   async getItems(): Promise<GetItemsOutput> {
