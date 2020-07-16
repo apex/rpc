@@ -28,3 +28,9 @@ type RemoveItemInput struct {
   ID int `json:"id"`
 }
 
+// RemoveItemOutput params.
+type RemoveItemOutput struct {
+  // Item is the item removed.
+  Item Item `json:"item"`
+}
+

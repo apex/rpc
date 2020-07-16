@@ -28,3 +28,9 @@ interface RemoveItemInput {
   id?: number
 }
 
+// RemoveItemOutput params.
+interface RemoveItemOutput {
+  // item is the item removed.
+  item?: Item
+}
+

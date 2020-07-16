@@ -22,8 +22,9 @@ func (c *Client) GetItems() (*GetItemsOutput, error) {
 }
 
 // RemoveItem removes an item from the to-do list.
-func (c *Client) RemoveItem(in RemoveItemInput) error {
-  return call(c.HTTPClient, c.AuthToken, c.URL, "remove_item", in, nil)
+func (c *Client) RemoveItem(in RemoveItemInput) (*RemoveItemOutput, error) {
+  var out RemoveItemOutput
+  return &out, call(c.HTTPClient, c.AuthToken, c.URL, "remove_item", in, &out)
 }
 
 

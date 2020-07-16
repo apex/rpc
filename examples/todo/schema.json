@@ -38,6 +38,15 @@
           "description": "the id of the item to remove.",
           "type": "integer"
         }
+      ],
+      "outputs": [
+        {
+          "name": "item",
+          "description": "the item removed.",
+          "type": {
+            "$ref": "#/types/item"
+          }
+        }
       ]
     }
   ],

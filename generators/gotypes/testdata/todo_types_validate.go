@@ -51,6 +51,12 @@ func (r *RemoveItemInput) Validate() error {
   return nil
 }
 
+// RemoveItemOutput params.
+type RemoveItemOutput struct {
+  // Item is the item removed.
+  Item Item `json:"item"`
+}
+
 
 // oneOf returns true if s is in the values.
 func oneOf(s string, values []string) bool {

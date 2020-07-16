@@ -59,7 +59,7 @@ func (s *Server) getItems(ctx context.Context) (interface{}, error) {
 
 // removeItem removes an item from the to-do list.
 func (s *Server) removeItem(ctx context.Context, in RemoveItemInput) (interface{}, error) {
-  err := s.RemoveItem(ctx, in)
-  return nil, err
+  res, err := s.RemoveItem(ctx, in)
+  return res, err
 }
 

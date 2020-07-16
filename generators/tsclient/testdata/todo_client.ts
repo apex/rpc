@@ -108,8 +108,10 @@ export class Client {
    * removeItem: removes an item from the to-do list.
    */
 
-  async removeItem(params: RemoveItemInput) {
-    await call(this.url, 'remove_item', this.authToken, params)
+  async removeItem(params: RemoveItemInput): Promise<RemoveItemOutput> {
+    let res = await call(this.url, 'remove_item', this.authToken, params)
+    let out: RemoveItemOutput = JSON.parse(res, this.decoder)
+    return out
   }
 
 }
