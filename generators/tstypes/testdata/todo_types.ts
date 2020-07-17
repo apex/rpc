@@ -1,4 +1,4 @@
-// Item A to-do item.
+// Item is a to-do item.
 interface Item {
   // created_at is the time the to-do item was created.
   created_at?: Date

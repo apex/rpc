@@ -1,4 +1,4 @@
-// Item A to-do item.
+// Item is a to-do item.
 type Item struct {
   // CreatedAt is the time the to-do item was created.
   CreatedAt time.Time `json:"created_at"`
