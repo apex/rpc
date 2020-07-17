@@ -52,7 +52,7 @@
   ],
   "types": {
     "item": {
-      "description": "A to-do item.",
+      "description": "is a to-do item.",
       "properties": [
         {
           "name": "id",
