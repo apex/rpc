@@ -16,3 +16,7 @@ Generated clients __SHOULD__:
 - Set the `User-Agent` header field with the name and version of the library
 - Support compressed gzip requests
 - Support compressed gzip responses
+
+## Testing
+
+Clients use [tj/go-fixture](https://github.com/tj/go-fixture) for testing, use `go test -update` to generate or update any test fixtures.
