@@ -16,7 +16,7 @@ func Generate(w io.Writer, s *schema.Schema) error {
 	// types
 	for _, t := range s.TypesSlice() {
 		out(w, "// %s %s\n", format.GoName(t.Name), t.Description)
-		out(w, "interface %s {\n", format.GoName(t.Name))
+		out(w, "export interface %s {\n", format.GoName(t.Name))
 		writeFields(w, s, t.Properties)
 		out(w, "}\n\n")
 	}
