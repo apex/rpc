@@ -1,4 +1,14 @@
 
+v0.2.0 / 2020-08-06
+===================
+
+  * add exporting of TypeScript types
+  * add start of Elm client (not usable yet)
+  * add start of Ruby client. Closes #4
+  * add start of PHP client. Closes #6
+  * fix: remove inclusion of oneOf() util when no validation is present in gotypes
+  * refactor test fixtures using tj/go-fixture
+
 v0.1.2 / 2020-07-13
 ===================
 
