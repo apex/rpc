@@ -9,7 +9,7 @@ Generated clients __MUST__:
 - Support Authorization Bearer tokens
 - Handle HTTP status errors reporting `>= 300` appropriately
 - Support decoding of application/json error responses and exposing this information
-- Suppor 204 "No Content" responses for methods which return no data
+- Support 204 "No Content" responses for methods which return no data
 
 Generated clients __SHOULD__:
 
@@ -20,3 +20,7 @@ Generated clients __SHOULD__:
 ## Testing
 
 Clients use [tj/go-fixture](https://github.com/tj/go-fixture) for testing, use `go test -update` to generate or update any test fixtures.
+
+## Schema
+
+The JSON Schema used to validate Apex RPC's schema is located in the ./schema directory. Any changes made to this schema must be re-generated with `go generate`.

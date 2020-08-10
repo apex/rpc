@@ -1,3 +1,5 @@
+//go:generate file2go -in schema.json -pkg schema
+
 // Package schema provides the Apex RPC schema.
 package schema
 
@@ -169,8 +171,7 @@ func (s Schema) TypesSlice() (v []Type) {
 
 // Load returns a schema loaded and validated from path.
 func Load(path string) (*Schema, error) {
-	// TODO: bake into binary :D
-	schema := gojsonschema.NewReferenceLoader("file:///Users/tj/dev/src/github.com/apex/rpc/schema/schema.json")
+	schema := gojsonschema.NewBytesLoader(SchemaJson)
 	doc := gojsonschema.NewReferenceLoader("file://" + path)
 
 	// validate
