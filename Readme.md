@@ -22,7 +22,7 @@ There are several commands provided for generating clients, servers, and documen
 ### Clients
 
 - `rpc-dotnet-client` generates .NET clients
-- `rpc-ruby-client` generates .NET clients
+- `rpc-ruby-client` generates Ruby clients
 - `rpc-php-client` generates PHP clients
 - `rpc-elm-client` generates Elm clients
 - `rpc-go-client` generates Go clients
