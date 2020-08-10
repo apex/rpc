@@ -107,8 +107,6 @@ func goType(s *schema.Schema, f schema.Field) string {
 
 	// type
 	switch f.Type.Type {
-	case schema.Any:
-		return "interface{}"
 	case schema.String:
 		return "string"
 	case schema.Int:

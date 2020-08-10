@@ -82,8 +82,6 @@ func jsType(s *schema.Schema, f schema.Field) string {
 
 	// type
 	switch f.Type.Type {
-	case schema.Any:
-		return "any"
 	case schema.String:
 		return "string"
 	case schema.Int, schema.Float:

@@ -12,8 +12,6 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
-// TODO: remove Any type, don't think I'm using it anymore
-
 // ValidationError is a validation error.
 type ValidationError struct {
 	Result *gojsonschema.Result
@@ -33,7 +31,6 @@ type Kind string
 
 // Types available.
 const (
-	Any       Kind = "any"
 	String    Kind = "string"
 	Bool      Kind = "boolean"
 	Int       Kind = "integer"
@@ -171,6 +168,7 @@ func (s Schema) TypesSlice() (v []Type) {
 
 // Load returns a schema loaded and validated from path.
 func Load(path string) (*Schema, error) {
+	// TODO: bake into the binary with Go's native 'embed' stuff once it's available
 	schema := gojsonschema.NewBytesLoader(SchemaJson)
 	doc := gojsonschema.NewReferenceLoader("file://" + path)
 
@@ -242,7 +240,7 @@ func Load(path string) (*Schema, error) {
 // IsBuiltin returns true if the type is built-in.
 func IsBuiltin(kind Kind) bool {
 	switch kind {
-	case Any, String, Int, Bool, Float, Array, Object, Timestamp:
+	case String, Int, Bool, Float, Array, Object, Timestamp:
 		return true
 	default:
 		return false
