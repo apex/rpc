@@ -19,6 +19,22 @@ func TestReadRequest(t *testing.T) {
 		assert.EqualError(t, err, `Unsupported request Content-Type, must be application/json`)
 	})
 
+	t.Run("with malformed JSON", func(t *testing.T) {
+		r := httptest.NewRequest("GET", "/", strings.NewReader(`{ "name": "Tobi`))
+		r.Header.Set("Content-Type", "application/json")
+		var in struct{ Name string }
+		err := rpc.ReadRequest(r, &in)
+		assert.EqualError(t, err, `Failed to parse malformed request body, must be a valid JSON object`)
+	})
+
+	t.Run("with JSON array", func(t *testing.T) {
+		r := httptest.NewRequest("GET", "/", strings.NewReader(`[{}]`))
+		r.Header.Set("Content-Type", "application/json")
+		var in struct{ Name string }
+		err := rpc.ReadRequest(r, &in)
+		assert.EqualError(t, err, `Failed to parse malformed request body, must be a valid JSON object`)
+	})
+
 	t.Run("with a json body", func(t *testing.T) {
 		r := httptest.NewRequest("GET", "/", strings.NewReader(`{ "name": "Tobi" }`))
 		r.Header.Set("Content-Type", "application/json")

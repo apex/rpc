@@ -15,7 +15,7 @@ func ReadRequest(r *http.Request, value interface{}) error {
 		// decode
 		err := json.NewDecoder(r.Body).Decode(value)
 		if err != nil {
-			return BadRequest("Failed to parse malformed JSON body")
+			return BadRequest("Failed to parse malformed request body, must be a valid JSON object")
 		}
 
 		// validate
