@@ -1,4 +1,13 @@
 
+v0.3.0 / 2020-09-01
+===================
+
+  * add dotnet client (#35)
+  * add schema/schema.json to the binary. Closes #1
+  * refactor ReadRequest() error response to mention a valid JSON object
+  * update github workflow to use Go 1.14.x
+  * remove Any type
+
 v0.2.0 / 2020-08-06
 ===================
 
