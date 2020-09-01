@@ -1,4 +1,9 @@
 
+v0.3.2 / 2020-09-01
+===================
+
+  * Revert "fix camel-casing of TS type field names" (forgot this will serialize wrong)
+
 v0.3.1 / 2020-09-01
 ===================
 
