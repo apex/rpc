@@ -1,7 +1,7 @@
 // Item is a to-do item.
 export interface Item {
-  // created_at is the time the to-do item was created.
-  created_at?: Date
+  // createdAt is the time the to-do item was created.
+  createdAt?: Date
 
   // id is the id of the item. This field is read-only.
   id?: number

@@ -32,10 +32,10 @@ class ClientError extends Error {
 }
 
 /**
- * Call method with params via a POST request.
+ * Call method with body via a POST request.
  */
 
-async function call(url: string, method: string, authToken?: string, params?: any): Promise<string> {
+async function call(url: string, method: string, authToken?: string, body?: string): Promise<string> {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json'
   }
@@ -46,7 +46,7 @@ async function call(url: string, method: string, authToken?: string, params?: an
   
   const res = await fetch(url + '/' + method, {
     method: 'POST',
-    body: JSON.stringify(params),
+    body: body,
     headers
   })
 
@@ -94,13 +94,113 @@ func Generate(w io.Writer, s *schema.Schema, fetchLibrary string) error {
 	out(w, "  }\n")
 	out(w, "\n")
 	out(w, "  /**\n")
-	out(w, "   * Decoder is used as the reviver parameter when decoding responses.\n")
+	out(w, "   * Decode the response to an object.\n")
 	out(w, "   */\n")
 	out(w, "\n")
-	out(w, "  private decoder(key: any, value: any) {\n")
-	out(w, "    return typeof value == 'string' && reISO8601.test(value)\n")
-	out(w, "      ? new Date(value)\n")
-	out(w, "      : value\n")
+	out(w, "  private decodeResponse(res: string): any {\n")
+	out(w, "    const obj = JSON.parse(res)\n")
+	out(w, "\n")
+	out(w, "    const isObject = (val: any) =>\n")
+	out(w, "      val && typeof val === \"object\" && val.constructor === Object\n")
+	out(w, "    const isDate = (val: any) =>\n")
+	out(w, "      typeof val == \"string\" && reISO8601.test(val)\n")
+	out(w, "    const isArray = (val: any) => Array.isArray(val)\n")
+	out(w, "\n")
+	out(w, "    const decode = (val: any): any => {\n")
+	out(w, "      let ret: any\n")
+	out(w, "\n")
+	out(w, "      if (isObject(val)) {\n")
+	out(w, "        ret = {}\n")
+	out(w, "        for (const prop in val) {\n")
+	out(w, "          if (!Object.prototype.hasOwnProperty.call(val, prop)) {\n")
+	out(w, "            continue\n")
+	out(w, "          }\n")
+	out(w, "          ret[this.toCamelCase(prop)] = decode(val[prop])\n")
+	out(w, "        }\n")
+	out(w, "      } else if (isArray(val)) {\n")
+	out(w, "        ret = []\n")
+	out(w, "        val.forEach((item: any) => {\n")
+	out(w, "          ret.push(decode(item))\n")
+	out(w, "        })\n")
+	out(w, "      } else if (isDate(val)) {\n")
+	out(w, "        ret = new Date(val)\n")
+	out(w, "      } else {\n")
+	out(w, "        ret = val\n")
+	out(w, "      }\n")
+	out(w, "\n")
+	out(w, "      return ret\n")
+	out(w, "    }\n")
+	out(w, "\n")
+	out(w, "    return decode(obj)\n")
+	out(w, "  }\n")
+	out(w, "\n")
+	out(w, "  /**\n")
+	out(w, "   * Convert a field name from snake case to camel case.\n")
+	out(w, "   */\n")
+	out(w, "\n")
+	out(w, "  private toCamelCase(str: string): string {\n")
+	out(w, "    const capitalize = (str: string) =>\n")
+	out(w, "      str.charAt(0).toUpperCase() + str.slice(1)\n")
+	out(w, "\n")
+	out(w, "    const tok = str.split(\"_\")\n")
+	out(w, "    let ret = tok[0]\n")
+	out(w, "    tok.slice(1).forEach((t) => (ret += capitalize(t)))\n")
+	out(w, "\n")
+	out(w, "    return ret\n")
+	out(w, "  }\n")
+	out(w, "\n")
+	out(w, "  /**\n")
+	out(w, "   * Encode the request object.\n")
+	out(w, "   */\n")
+	out(w, "\n")
+	out(w, "  private encodeRequest(obj: any): string {\n")
+	out(w, "    const isObject = (val: any) =>\n")
+	out(w, "      val && typeof val === \"object\" && val.constructor === Object\n")
+	out(w, "    const isArray = (val: any) => Array.isArray(val)\n")
+	out(w, "\n")
+	out(w, "    const encode = (val: any): any => {\n")
+	out(w, "      let ret: any\n")
+	out(w, "\n")
+	out(w, "      if (isObject(val)) {\n")
+	out(w, "        ret = {}\n")
+	out(w, "        for (const prop in val) {\n")
+	out(w, "          if (!Object.prototype.hasOwnProperty.call(val, prop)) {\n")
+	out(w, "            continue\n")
+	out(w, "          }\n")
+	out(w, "          ret[this.toSnakeCase(prop)] = encode(val[prop])\n")
+	out(w, "        }\n")
+	out(w, "      } else if (isArray(val)) {\n")
+	out(w, "        ret = []\n")
+	out(w, "        val.forEach((item: any) => {\n")
+	out(w, "          ret.push(encode(item))\n")
+	out(w, "        })\n")
+	out(w, "      } else {\n")
+	out(w, "        ret = val\n")
+	out(w, "      }\n")
+	out(w, "\n")
+	out(w, "      return ret\n")
+	out(w, "    }\n")
+	out(w, "\n")
+	out(w, "    return JSON.stringify(encode(obj))\n")
+	out(w, "  }\n")
+	out(w, "\n")
+	out(w, "  /**\n")
+	out(w, "   * Convert a field name from camel case to snake case.\n")
+	out(w, "   */\n")
+	out(w, "\n")
+	out(w, "  private toSnakeCase(str: string): string {\n")
+	out(w, "    let ret = \"\"\n")
+	out(w, "    const isUpper = (c: string) => !(c.toLowerCase() == c)\n")
+	out(w, "\n")
+	out(w, "    for (let c of str) {\n")
+	out(w, "      if (isUpper(c)) {\n")
+	out(w, "        ret += \"_\" + c.toLowerCase()\n")
+	out(w, "      } else {\n")
+	out(w, "        ret += c\n")
+	out(w, "      }\n")
+	out(w, "    }\n")
+	out(w, "\n")
+	out(w, "    return ret\n")
 	out(w, "  }\n")
 	out(w, "\n")
 
@@ -130,16 +230,16 @@ func Generate(w io.Writer, s *schema.Schema, fetchLibrary string) error {
 			out(w, "    let res = ")
 			// call
 			if len(m.Inputs) > 0 {
-				out(w, "await call(this.url, '%s', this.authToken, params)\n", m.Name)
+				out(w, "await call(this.url, '%s', this.authToken, this.encodeRequest(params))\n", m.Name)
 			} else {
 				out(w, "await call(this.url, '%s', this.authToken)\n", m.Name)
 			}
-			out(w, "    let out: %sOutput = JSON.parse(res, this.decoder)\n", format.GoName(m.Name))
+			out(w, "    let out: %sOutput = this.decodeResponse(res)\n", format.GoName(m.Name))
 			out(w, "    return out\n")
 		} else {
 			// call
 			if len(m.Inputs) > 0 {
-				out(w, "    await call(this.url, '%s', this.authToken, params)\n", m.Name)
+				out(w, "    await call(this.url, '%s', this.authToken, this.encodeRequest(params))\n", m.Name)
 			} else {
 				out(w, "    await call(this.url, '%s', this.authToken)\n", m.Name)
 			}
