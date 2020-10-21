@@ -21,10 +21,10 @@ class ClientError extends Error {
 }
 
 /**
- * Call method with params via a POST request.
+ * Call method with body via a POST request.
  */
 
-async function call(url: string, method: string, authToken?: string, params?: any): Promise<string> {
+async function call(url: string, method: string, authToken?: string, body?: string): Promise<string> {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json'
   }
@@ -35,7 +35,7 @@ async function call(url: string, method: string, authToken?: string, params?: an
   
   const res = await fetch(url + '/' + method, {
     method: 'POST',
-    body: JSON.stringify(params),
+    body: body,
     headers
   })
 
@@ -77,13 +77,113 @@ export class Client {
   }
 
   /**
-   * Decoder is used as the reviver parameter when decoding responses.
+   * Decode the response to an object.
    */
 
-  private decoder(key: any, value: any) {
-    return typeof value == 'string' && reISO8601.test(value)
-      ? new Date(value)
-      : value
+  private decodeResponse(res: string): any {
+    const obj = JSON.parse(res)
+
+    const isObject = (val: any) =>
+      val && typeof val === "object" && val.constructor === Object
+    const isDate = (val: any) =>
+      typeof val == "string" && reISO8601.test(val)
+    const isArray = (val: any) => Array.isArray(val)
+
+    const decode = (val: any): any => {
+      let ret: any
+
+      if (isObject(val)) {
+        ret = {}
+        for (const prop in val) {
+          if (!Object.prototype.hasOwnProperty.call(val, prop)) {
+            continue
+          }
+          ret[this.toCamelCase(prop)] = decode(val[prop])
+        }
+      } else if (isArray(val)) {
+        ret = []
+        val.forEach((item: any) => {
+          ret.push(decode(item))
+        })
+      } else if (isDate(val)) {
+        ret = new Date(val)
+      } else {
+        ret = val
+      }
+
+      return ret
+    }
+
+    return decode(obj)
+  }
+
+  /**
+   * Convert a field name from snake case to camel case.
+   */
+
+  private toCamelCase(str: string): string {
+    const capitalize = (str: string) =>
+      str.charAt(0).toUpperCase() + str.slice(1)
+
+    const tok = str.split("_")
+    let ret = tok[0]
+    tok.slice(1).forEach((t) => (ret += capitalize(t)))
+
+    return ret
+  }
+
+  /**
+   * Encode the request object.
+   */
+
+  private encodeRequest(obj: any): string {
+    const isObject = (val: any) =>
+      val && typeof val === "object" && val.constructor === Object
+    const isArray = (val: any) => Array.isArray(val)
+
+    const encode = (val: any): any => {
+      let ret: any
+
+      if (isObject(val)) {
+        ret = {}
+        for (const prop in val) {
+          if (!Object.prototype.hasOwnProperty.call(val, prop)) {
+            continue
+          }
+          ret[this.toSnakeCase(prop)] = encode(val[prop])
+        }
+      } else if (isArray(val)) {
+        ret = []
+        val.forEach((item: any) => {
+          ret.push(encode(item))
+        })
+      } else {
+        ret = val
+      }
+
+      return ret
+    }
+
+    return JSON.stringify(encode(obj))
+  }
+
+  /**
+   * Convert a field name from camel case to snake case.
+   */
+
+  private toSnakeCase(str: string): string {
+    let ret = ""
+    const isUpper = (c: string) => !(c.toLowerCase() == c)
+
+    for (let c of str) {
+      if (isUpper(c)) {
+        ret += "_" + c.toLowerCase()
+      } else {
+        ret += c
+      }
+    }
+
+    return ret
   }
 
   /**
@@ -91,7 +191,7 @@ export class Client {
    */
 
   async addItem(params: AddItemInput) {
-    await call(this.url, 'add_item', this.authToken, params)
+    await call(this.url, 'add_item', this.authToken, this.encodeRequest(params))
   }
 
   /**
@@ -100,7 +200,7 @@ export class Client {
 
   async getItems(): Promise<GetItemsOutput> {
     let res = await call(this.url, 'get_items', this.authToken)
-    let out: GetItemsOutput = JSON.parse(res, this.decoder)
+    let out: GetItemsOutput = this.decodeResponse(res)
     return out
   }
 
@@ -109,8 +209,8 @@ export class Client {
    */
 
   async removeItem(params: RemoveItemInput): Promise<RemoveItemOutput> {
-    let res = await call(this.url, 'remove_item', this.authToken, params)
-    let out: RemoveItemOutput = JSON.parse(res, this.decoder)
+    let res = await call(this.url, 'remove_item', this.authToken, this.encodeRequest(params))
+    let out: RemoveItemOutput = this.decodeResponse(res)
     return out
   }
 
